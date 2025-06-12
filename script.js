@@ -247,7 +247,11 @@ function showTooltip(district) {
     const tooltip = document.querySelector('.tooltip-box');
     const wardLabel = 'Tỉnh, thành phố';
     
+    // Thêm nút close vào đầu nội dung tooltip với class "close-btn"
     let content = `
+        <div class="tooltip-header">
+            <button class="close-btn" onclick="hideTooltip()">X</button>
+        </div>
         <div class="wards-content">
             <h4>${wardLabel} sau sáp nhập: ${district.name}</h4>
         </div>
@@ -307,15 +311,15 @@ function showTooltip(district) {
     
     if (window.innerWidth <= 768) {
         tooltip.style.maxWidth = '85vw';
-        tooltip.style.maxHeight = '90vh';  // Cho phép hiển thị gần đủ chiều cao màn hình
-        tooltip.style.overflowY = 'auto';   // Nếu nội dung vượt quá, sẽ cuộn dọc
+        tooltip.style.maxHeight = '90vh';
+        tooltip.style.overflowY = 'auto';
     } else {
         tooltip.style.maxWidth = '90vw';
         tooltip.style.maxHeight = '80vh';
     }
     
     tooltip.style.overflow = 'auto';
-    tooltip.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';  // Nền trắng với 80% độ mờ
+    tooltip.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
 
     tooltip.style.display = 'block';
     handleTooltipScroll();
