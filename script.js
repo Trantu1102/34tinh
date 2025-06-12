@@ -376,7 +376,10 @@ function setupEventListeners() {
 
     document.addEventListener('mousemove', (event) => {
         const tooltip = document.querySelector('.tooltip-box');
-        if (!event.target.closest('area') && !tooltip.contains(event.target)) {
+        const mapContainer = document.querySelector('.map-container');
+        
+        // Kiểm tra nếu chuột đang ở trong tooltip hay map container thì không ẩn tooltip
+        if (!tooltip.contains(event.target) && !mapContainer.contains(event.target)) {
             hideTooltip();
         }
     });
