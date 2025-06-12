@@ -500,3 +500,24 @@ area {
         padding: 6px;
     }
 }
+
+.tooltip-header {
+    position: relative;
+    padding: 5px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-btn:hover {
+    color: #ff0000;
+}
