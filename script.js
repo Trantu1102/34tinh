@@ -275,25 +275,19 @@ function showTooltip(district) {
     
     tooltip.innerHTML = content;
 
-    // Thêm xử lý cho mobile và desktop: đặt tooltip bên phải
-    // Cập nhật vị trí tooltip (cập nhật trong handleSwitchChange để khi thay đổi nội dung vẫn giữ bên phải)
+    // Xử lý nút chuyển đổi hiện vùng wards
     const wardsSwitch = tooltip.querySelector('.wards-switch');
     const currentWardsContent = tooltip.querySelector('.current-wards-content');
-    
-    // Xóa sự kiện cũ nếu có
     wardsSwitch.removeEventListener('change', handleSwitchChange);
-    
-    // Thêm event listener mới
     function handleSwitchChange() {
         currentWardsContent.style.display = this.checked ? 'block' : 'none';
         setTimeout(() => {
-            // Đặt tooltip bên phải: sử dụng right thay vì left
+            // Cập nhật vị trí tooltip sau khi thay đổi nội dung
             tooltip.style.top = '50%';
-            tooltip.style.right = '10px';
-            tooltip.style.transform = 'translateY(-50%)';
+            tooltip.style.left = '50%';
+            tooltip.style.transform = 'translate(-50%, -50%)';
         }, 0);
     }
-    
     wardsSwitch.addEventListener('change', handleSwitchChange);
 
     // Ngăn chặn việc đóng tooltip khi scroll trong tooltip
@@ -304,15 +298,24 @@ function showTooltip(district) {
             e.preventDefault();
         }
     }, { passive: false });
-
-    // Đặt vị trí tooltip cho tất cả các thiết bị: bên phải để không che bản đồ
+    
+    // Thiết lập vị trí và kích thước tooltip sao cho nằm gọn trong màn hình của điện thoại
     tooltip.style.position = 'fixed';
     tooltip.style.top = '50%';
-    tooltip.style.right = '10px'; // Cách mép phải màn hình 10px, điều chỉnh nếu cần
-    tooltip.style.transform = 'translateY(-50%)';
-    tooltip.style.maxWidth = '90vw';
-    tooltip.style.maxHeight = '80vh';
+    tooltip.style.left = '50%';
+    tooltip.style.transform = 'translate(-50%, -50%)';
+    
+    if (window.innerWidth <= 768) {
+        tooltip.style.maxWidth = '85vw';
+        tooltip.style.maxHeight = '90vh';  // Cho phép hiển thị gần đủ chiều cao màn hình
+        tooltip.style.overflowY = 'auto';   // Nếu nội dung vượt quá, sẽ cuộn dọc
+    } else {
+        tooltip.style.maxWidth = '90vw';
+        tooltip.style.maxHeight = '80vh';
+    }
+    
     tooltip.style.overflow = 'auto';
+    tooltip.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';  // Nền trắng với 80% độ mờ
 
     tooltip.style.display = 'block';
     handleTooltipScroll();
