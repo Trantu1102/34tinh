@@ -51,7 +51,6 @@ function createMapAreas() {
         areaElement.setAttribute('shape', area.shape);
         areaElement.setAttribute('coords', scaledCoords.join(','));
         areaElement.setAttribute('href', 'javascript:void(0)');
-        areaElement.setAttribute('tabindex', '0'); // Added tabindex attribute
         mapElement.appendChild(areaElement);
     });
     
@@ -273,29 +272,22 @@ function showTooltip(district) {
             </div>
         </div>
     `;
+    
     tooltip.innerHTML = content;
 
-    // Xử lý cho mobile và desktop: định vị tooltip bên phải
-    tooltip.style.position = 'fixed';
-    tooltip.style.top = '50%';
-    tooltip.style.right = '10px'; // cách phải màn hình 10px, điều chỉnh theo ý bạn
-    tooltip.style.transform = 'translateY(-50%)'; // căn giữa theo trục dọc
-    tooltip.style.maxWidth = '90vw';
-    tooltip.style.maxHeight = '80vh';
-    tooltip.style.overflow = 'auto';
-
-    // Thêm xử lý cho nút chuyển đổi hiển thị current wards
+    // Thêm xử lý cho mobile và desktop: đặt tooltip bên phải
+    // Cập nhật vị trí tooltip (cập nhật trong handleSwitchChange để khi thay đổi nội dung vẫn giữ bên phải)
     const wardsSwitch = tooltip.querySelector('.wards-switch');
     const currentWardsContent = tooltip.querySelector('.current-wards-content');
     
-    // Xóa event listener cũ nếu có
+    // Xóa sự kiện cũ nếu có
     wardsSwitch.removeEventListener('change', handleSwitchChange);
     
     // Thêm event listener mới
     function handleSwitchChange() {
         currentWardsContent.style.display = this.checked ? 'block' : 'none';
-        // Cập nhật lại vị trí tooltip sau khi thay đổi nội dung
         setTimeout(() => {
+            // Đặt tooltip bên phải: sử dụng right thay vì left
             tooltip.style.top = '50%';
             tooltip.style.right = '10px';
             tooltip.style.transform = 'translateY(-50%)';
@@ -312,6 +304,15 @@ function showTooltip(district) {
             e.preventDefault();
         }
     }, { passive: false });
+
+    // Đặt vị trí tooltip cho tất cả các thiết bị: bên phải để không che bản đồ
+    tooltip.style.position = 'fixed';
+    tooltip.style.top = '50%';
+    tooltip.style.right = '10px'; // Cách mép phải màn hình 10px, điều chỉnh nếu cần
+    tooltip.style.transform = 'translateY(-50%)';
+    tooltip.style.maxWidth = '90vw';
+    tooltip.style.maxHeight = '80vh';
+    tooltip.style.overflow = 'auto';
 
     tooltip.style.display = 'block';
     handleTooltipScroll();
